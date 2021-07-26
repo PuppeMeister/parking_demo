@@ -54,7 +54,7 @@ public class ParkingServiceSpec {
     @Test
     void parkFirstCarSpec(){
 
-        CarData dummyCar = new CarData("KA-01-HH-1234", "white", 0);
+        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0);
         int result = parkingService.parkCar(dummyCar);
         assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
     }
@@ -63,7 +63,7 @@ public class ParkingServiceSpec {
     @Test
     void parkCarNoParkingLotFailedSpec(){
         parkingService.resetParkingLot();
-        CarData dummyCar = new CarData("KA-01-HH-1234", "white", 0);
+        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0);
         int result = parkingService.parkCar(dummyCar);
         assertThat(result).isEqualTo(HttpServletResponse.SC_BAD_REQUEST);
     }

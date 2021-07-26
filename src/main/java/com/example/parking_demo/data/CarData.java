@@ -11,16 +11,20 @@ public class CarData {
     private String colour;
     private int parkingSlot;
 
-    public CarData(//int slotNumber,
+    public CarData(@JsonProperty("slotNumber") int slotNumber,
                    @JsonProperty("registrationNumber") String registrationNumber,
                    @JsonProperty("colour") String colour,
                    @JsonProperty("slot") int parkingSlot){
-        //this.slotNumber = slotNumber;
+        this.slotNumber = slotNumber;
         this.registrationNumber = registrationNumber;
         this.colour = colour;
         this.parkingSlot = parkingSlot;
     }
-    public CarData(){}
+    public CarData(){
+        this.slotNumber = 0;
+        this.registrationNumber = "vacant";
+        this.colour = "vacant";
+    }
 
     public void setSlotNumber(int slotNumber) {
         this.slotNumber = slotNumber;
