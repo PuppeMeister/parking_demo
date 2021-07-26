@@ -1,7 +1,9 @@
 package com.example.parking_demo.controller;
 
+import com.google.gson.JsonArray;
 import com.example.parking_demo.data.CarData;
 import com.example.parking_demo.service.ParkingService;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,19 +25,17 @@ public class RequestHandler {
 
     @Autowired
     private ParkingService parkingService;
-    /*
-    @PostMapping
-    public void retrieveIncomingRequest(){
-
-    }*/
-
 
     @PostMapping
     @RequestMapping("/api/v1/parking/alocatingspace")
-    public void alocateSlot(@RequestBody CarData incomingData, HttpServletResponse response){
+    public String alocateSlot(@RequestBody CarData incomingData, HttpServletResponse response){
+
         int status = parkingService.alocateSpace(incomingData.getParkingSlot());
         response.setStatus(status);
-        //System.out.println("SLOT = "+ slot.getSlot());
+        JsonObject jsonResponse = new JsonObject();
+        jsonResponse.addProperty("status", Integer.toString(status));
+        jsonResponse.addProperty("message", NOTIFICATION.get(status));
+        return jsonResponse.toString();
     }
 
 
