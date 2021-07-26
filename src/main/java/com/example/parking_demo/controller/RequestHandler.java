@@ -38,6 +38,17 @@ public class RequestHandler {
         return jsonResponse.toString();
     }
 
+    @PostMapping
+    @RequestMapping("/api/v1/parking/car")
+    public String parkingOneCar(@RequestBody CarData incomingData, HttpServletResponse response){
+
+        int status = parkingService.parkCar(incomingData);
+        response.setStatus(status);
+        JsonObject jsonResponse = new JsonObject();
+        jsonResponse.addProperty("status", Integer.toString(status));
+        jsonResponse.addProperty("message", NOTIFICATION.get(status));
+        return jsonResponse.toString();
+    }
 
 }
 

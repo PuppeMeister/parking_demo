@@ -5,5 +5,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface ParkingDao {
 
    int alocateSpace(int slot);
-   void parkCar(CarData car);
+   int parkCar(CarData car);
 }

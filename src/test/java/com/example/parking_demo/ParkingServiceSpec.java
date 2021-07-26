@@ -25,7 +25,7 @@ public class ParkingServiceSpec {
     @Autowired
     ParkingService parkingService;
 
-    @DisplayName("Alocate Parking Slot: Positive Case")
+    @DisplayName("Alocate Parking Slot: [Positive Case]")
     @Test
     void alocateSlotSpec(){
         int slot = 12;
@@ -33,7 +33,8 @@ public class ParkingServiceSpec {
         assertThat(result).isEqualTo(HttpServletResponse.SC_CREATED);
     }
 
-    @DisplayName("Alocate Parking Slot: Parking Lot cannot be Initialize Twice")
+    @DisplayName("Alocate Parking Slot: [Negative Case] " +
+            "Parking Lot cannot be Initialize Twice")
     @Test
     void alocatedSlotTwiceFailedSpec(){
         int slot = 47;
@@ -41,6 +42,29 @@ public class ParkingServiceSpec {
         assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
     }
 
+    /*@DisplayName("Alocate Parking Slot:[Negative Case] Input is not Integer but String")
+    @Test
+    void alocatedSlotStringFailedSpec(){
+        int slot = 47;
+        int result = parkingService.alocateSpace(slot);
+        assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
+    }*/
 
+    @DisplayName("Parking Car: [Positive Case] Parking the First Car")
+    @Test
+    void parkFirstCarSpec(){
 
+        CarData dummyCar = new CarData("KA-01-HH-1234", "white", 0);
+        int result = parkingService.parkCar(dummyCar);
+        assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
+    }
+
+    @DisplayName("Parking Car: [Negative Case] Parking Lot isnt Initiated yet.")
+    @Test
+    void parkCarNoParkingLotFailedSpec(){
+        parkingService.resetParkingLot();
+        CarData dummyCar = new CarData("KA-01-HH-1234", "white", 0);
+        int result = parkingService.parkCar(dummyCar);
+        assertThat(result).isEqualTo(HttpServletResponse.SC_BAD_REQUEST);
+    }
 }
