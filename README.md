@@ -6,36 +6,60 @@ The model retrieves input and emits output through API.**
 
 **This is built with :**
 
-***Java 8***
-
-***Spring Boot***
-
-***jUnit5***
+1. Java 8
+2. Spring Boot
+3. jUnit5
 
 ## Features ##
 
 ### 1. Creating / Alocating Parking Space ### 
 
-***input***
+ - **Input**
 
-```console
-http://localhost:3000/api/v1/parking/alocatingspace
-```
+    ```console
+    http://localhost:19996/api/v1/parking/alocatingspace
+    ```
 
-***body***
+- **Request Body**
 
-
-```console 
-{
-"number": "" // Required
-}
-```
-
-***Expecting Positive Outcome***
+    ```console 
+     {
+     "number": "" // Required
+     }
+    ```
+     
+- **Expecting Positive Outcome**
 
 ### 2. Park a Car ### 
 
+- **Input**
+
+    ```console
+    http://localhost:19996/api/v1/parking/car
+    ```
+
+- **Request Body**
+
+    ```console 
+     {
+         "registrationNumber" : "KA-01-HH-1234",
+         "colour" : "white"
+     }
+    ```
+  
+- **Expecting Positive Outcome**
+
 ### 3. Free parking slot (Car Leaving) ### 
+
+
+- **Input**
+
+    ```console
+    http://localhost:19996/api/v1/parking/status
+    ```
+
+- **Request Body**
+
 
 ### 4. Inquire Parking Lot Status ###
 
@@ -46,3 +70,5 @@ http://localhost:3000/api/v1/parking/alocatingspace
 ### 7. Inquire Parking Slot Number based on Colour ### 
 
 ### 8. Inquire Parking Slot Number  based on Registration Number ### 
+
+## Unit Testing ##
