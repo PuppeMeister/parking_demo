@@ -28,7 +28,7 @@ The model retrieves input and emits output through API.**
      }
     ```
      
-- **Expecting Positive**
+- **Expected Result**
 
    ```console 
     { 
@@ -37,7 +37,7 @@ The model retrieves input and emits output through API.**
     }
     ```
 
-- **Expecting Positive if Parking Space has been Initialized or Occupied**
+- **Expected Result if Parking Space has been Initialized or Occupied**
 
     ```console 
     { 
@@ -63,7 +63,7 @@ The model retrieves input and emits output through API.**
      }
     ```
   
-- **Expecting Positive Outcome**
+- **Expected Result**
    
     ```console 
     { 
