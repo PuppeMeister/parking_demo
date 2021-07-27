@@ -24,11 +24,27 @@ The model retrieves input and emits output through API.**
 
     ```console 
      {
-     "number": "" // Required
+     "number": "4" 
      }
     ```
      
-- **Expecting Positive Outcome**
+- **Expecting Positive**
+
+   ```console 
+    { 
+      "status" : "201",
+      "message" : "Parking Slot is Allocated."
+    }
+    ```
+
+- **Expecting Positive if Parking Space has been Initialized or Occupied**
+
+    ```console 
+    { 
+      "status" : "403",
+      "message" : "Request is Rejected. Parking Slot has been Allocated before."
+    }
+    ```
 
 ### 2. Park a Car ### 
 
@@ -48,7 +64,13 @@ The model retrieves input and emits output through API.**
     ```
   
 - **Expecting Positive Outcome**
-
+   
+    ```console 
+    { 
+      "status" : "201",
+      "message" : "Request is done."
+    }
+    ```
 ### 3. Free parking slot (Car Leaving) ### 
 
 
