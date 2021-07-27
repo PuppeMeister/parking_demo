@@ -52,7 +52,7 @@ The model retrieves input and emits output through API.**
 ### 3. Free parking slot (Car Leaving) ### 
 
 
-- ***Endpoint**
+- **Endpoint**
 
     ```console
      POST : http://localhost:19996//api/v1/parking/leave
@@ -67,21 +67,141 @@ The model retrieves input and emits output through API.**
 
 ### 4. Inquire Parking Lot Status ###
 
--**Endpoint**
+- **Endpoint**
 
     ```console
      GET : http://localhost:19996/api/v1/parking/status
     ```
 
+- **Expected Result if the Parking Lot is occupied**
+
+   ```console 
+     {
+      "":[
+          { "Slot Number":"1",
+            "Registration Number":"KA-01-HH-1234",
+             "Colour":"White"
+          },
+          { "Slot Number":"2",
+            "Registration Number":"KA-01-HH-9999",
+            "Colour":"White"
+          }
+         ]
+      }
+    ```
+ 
+- **Expected Result if the Parking Lot is Empty**
+
+   ```console 
+     {
+      "Status" : "400",
+      "message" : "Parking Lot isn't initialized yet or empty"
+      }
+    ```
 
 ### 5. Parking Lot Full Notification ### 
+- **Endpoint**
+  - Same as feature no. 3.
+ 
+- **Expected Result**
 
+   ```console 
+     {
+      "Status" : "400",
+      "message" : "Sorry, There is no Vacant Space."
+      }
+    ```
 
 ### 6. Inquire Registration Number based on Colour ### 
 
+- **Endpoint**
+  
+  ```console
+     GET : http://localhost:19996/api/v1/parking/inquiry/reg?colour=White
+    ```
+    
+- **Expected Result**
+
+   ```console 
+     {
+        "data" : [
+          { 
+            "Registration Number":"KA-01-HH-1234",
+          },
+          {             
+             "Registration Number":"KA-01-HH-9999",
+          }
+        ]
+     }
+    ```
+- **Expected Result if No Matched Car Colour**    
+    
+    ```console 
+      "Status" : "404",
+      "message" : "Sorry, There is no Data Matched with Your Request."
+      }
+     ```
 
 ### 7. Inquire Parking Slot Number based on Colour ### 
 
+- **Endpoint**
+  
+  ```console
+     GET : http://localhost:19996/api/v1/parking/inquiry/slot1?colour=White
+    ```
+    
+- **Expected Result**
+
+   ```console 
+     {
+        "data" : [
+          { 
+            "Parking Slot":"1",
+          },
+          {             
+             "Parking Slot":"1",
+          }
+        ]
+     }
+    ```
+- **Expected Result if No Matched Car Colour**    
+    
+    ```console 
+     {
+      "Status" : "404",
+      "message" : "Sorry, There is no Data Matched with Your Request."
+      }
+    ```
+
 ### 8. Inquire Parking Slot Number  based on Registration Number ### 
+
+- **Endpoint**
+  
+  ```console
+     GET :http://localhost:19996/api/v1/parking/inquiry/slot2?regNo=KA-01-HH-0001
+    ```
+    
+- **Expected Result**
+
+   ```console 
+     {
+        "data" : [
+          { 
+            "Parking Slot":"1",
+          },
+          {             
+             "Parking Slot":"1",
+          }
+        ]
+     }
+    ```
+- **Expected Result if No Matched Car Colour**    
+    
+    ```console 
+    {
+      "Status" : "404",
+      "message" : "Sorry, There is no Data Matched with Your Request."
+      }
+   ```
 
 ## Unit Testing ##
