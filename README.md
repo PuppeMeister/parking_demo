@@ -14,10 +14,10 @@ The model retrieves input and emits output through API.**
 
 ### 1. Creating / Alocating Parking Space ### 
 
- - **Input**
+ - **Endpoint**
 
     ```console
-    http://localhost:19996/api/v1/parking/alocatingspace
+     POST : http://localhost:19996/api/v1/parking/alocatingspace
     ```
 
 - **Request Body**
@@ -32,10 +32,10 @@ The model retrieves input and emits output through API.**
 
 ### 2. Park a Car ### 
 
-- **Input**
+- **Endpoint**
 
     ```console
-    http://localhost:19996/api/v1/parking/car
+    POST : http://localhost:19996/api/v1/parking/car
     ```
 
 - **Request Body**
@@ -52,20 +52,33 @@ The model retrieves input and emits output through API.**
 ### 3. Free parking slot (Car Leaving) ### 
 
 
-- **Input**
+- ***Endpoint**
 
     ```console
-    http://localhost:19996/api/v1/parking/status
+     POST : http://localhost:19996//api/v1/parking/leave
     ```
-
 - **Request Body**
 
+    ```console 
+     {
+         "slotNumber" : "1"
+     }
+    ```
 
 ### 4. Inquire Parking Lot Status ###
 
+-**Endpoint**
+
+    ```console
+     GET : http://localhost:19996/api/v1/parking/status
+    ```
+
+
 ### 5. Parking Lot Full Notification ### 
 
+
 ### 6. Inquire Registration Number based on Colour ### 
+
 
 ### 7. Inquire Parking Slot Number based on Colour ### 
 
