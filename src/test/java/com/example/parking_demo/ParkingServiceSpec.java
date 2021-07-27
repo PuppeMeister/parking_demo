@@ -1,12 +1,10 @@
 package com.example.parking_demo;
 
 import com.example.parking_demo.data.CarData;
+import com.example.parking_demo.test.data.ParameterResolverInquireStatusPositiveCase ;
 import com.example.parking_demo.data.ParkingData;
 import com.example.parking_demo.service.ParkingService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.*;
@@ -15,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @DisplayName("Parking Service")
 @ExtendWith(SpringExtension.class)
@@ -54,7 +53,7 @@ public class ParkingServiceSpec {
     @Test
     void parkFirstCarSpec(){
 
-        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0);
+        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0, "");
         int result = parkingService.parkCar(dummyCar);
         assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
     }
@@ -63,8 +62,60 @@ public class ParkingServiceSpec {
     @Test
     void parkCarNoParkingLotFailedSpec(){
         parkingService.resetParkingLot();
-        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0);
+        CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0, "");
         int result = parkingService.parkCar(dummyCar);
         assertThat(result).isEqualTo(HttpServletResponse.SC_BAD_REQUEST);
     }
+
+    //HashMap<Integer, CarData> parkingLot
+    @Nested
+    @DisplayName("Inquiring Status: [Positive Case]")
+    @ExtendWith(ParameterResolverInquireStatusPositiveCase .class)
+
+    public class StatusInquiryPositiveCaseSpec {
+
+        HashMap<Integer, CarData> ParkingLotDummy;
+
+        @Test
+        @DisplayName("Parking Lot is not Null")
+        public void InquiryResultNotNullSpec(HashMap parkingLot){
+            parkingService.setParkingLot(parkingLot);
+            HashMap<Integer, CarData> result = parkingService.inquireStatus();
+            assertThat(result).isNotEmpty();
+        }
+
+        @Test
+        @DisplayName("Parking Lot has 6 Cars Inside")
+        public void CheckInquiryResultIndex(HashMap parkingLot){
+            parkingService.setParkingLot(parkingLot);
+            HashMap<Integer, CarData> result = parkingService.inquireStatus();
+            assertThat(result.size()).isEqualTo(6);
+        }
+
+        @Test
+        @DisplayName("Notification For Full Parking Lot")
+        public void errorCodeForPullParkingLot(HashMap parkingLot){
+            parkingService.setParkingLot(parkingLot);
+            CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0, "");
+            int result = parkingService.parkCar(dummyCar);
+            assertThat(result).isEqualTo(HttpServletResponse.SC_BAD_REQUEST);
+
+            //HashMap<Integer, CarData> result = parkingService.inquireStatus();
+            //assertThat(result.size()).isEqualTo(6);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Inquiring Registration Number: [Positive Case]")
+    public class regNoInquiry{
+
+    }
+
+    @Nested
+    @DisplayName("Inquiring Slot Number: [Positive Case]")
+    public class slotInquiry{
+
+    }
+
 }
