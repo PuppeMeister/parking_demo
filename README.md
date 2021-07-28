@@ -1,8 +1,7 @@
 # Parking Lot Demo
 
 ## Project Aim 
-**This is a microservice model for handling parking lot problem.
-The model retrieves input and emits output through API.**
+This is a microservice model for handling parking lot problem. The model retrieves input and emits output through API.
 
 **This is built with :**
 
@@ -228,6 +227,21 @@ The model retrieves input and emits output through API.**
 
 ## Unit Testing ##
 
-## Building with Maven ##
+- The system is able to allocate parking lot based on user input.
+- The system is able to refuse the allocation request twice / parking lot cannot be initialize twice.
+- The system is able to park a car.
+- The system is unable to park a car because the parking lot has not been initialized yet.
+- Test if parking lot has been initialized.
+- Test if inside parking lot there are 6 cars.
+- Test if parking lot is full and a car unable to park.
+- The system is able to provide registration numbers based on car colour.
+- The system is unable to provide registration numbers based on car colour / No data found.
+- The system is able to provide slot numbers based on car colour.
+- The system is unable to provide slot numbers based on car colour / No data found.
+- The system is able to provide slot numbers based on registration number.
+- The system is unable to provide slot numbers based on registration number / No data found.
+
+
+## Building Jar with Maven ##
 
 ## Running on Docker ##
