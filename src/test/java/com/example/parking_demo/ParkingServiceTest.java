@@ -19,12 +19,12 @@ import java.util.HashMap;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 //@ExtendWith(ParameterResolverParkingDataSpec.class) //Calling or tie this class with Parameter Resolver (Mock Data)
-public class ParkingServiceSpec {
+public class ParkingServiceTest {
 
     @Autowired
     ParkingService parkingService;
 
-    @DisplayName("Alocate Parking Slot: [Positive Case]")
+    @DisplayName("Test if the system is able to allocate parking lot based on user input. ")
     @Test
     void alocateSlotSpec(){
         int slot = 12;
@@ -32,8 +32,8 @@ public class ParkingServiceSpec {
         assertThat(result).isEqualTo(HttpServletResponse.SC_CREATED);
     }
 
-    @DisplayName("Alocate Parking Slot: [Negative Case] " +
-            "Parking Lot cannot be Initialize Twice")
+    @DisplayName("Test if the system is able to refuse the allocation request twice / " +
+            "parking lot cannot be initialize twice.")
     @Test
     void alocatedSlotTwiceFailedSpec(){
         int slot = 47;
@@ -49,7 +49,7 @@ public class ParkingServiceSpec {
         assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
     }*/
 
-    @DisplayName("Parking Car: [Positive Case] Parking the First Car")
+    @DisplayName("Test if the system is able to park a car.")
     @Test
     void parkFirstCarSpec(){
 
@@ -58,7 +58,7 @@ public class ParkingServiceSpec {
         assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
     }
 
-    @DisplayName("Parking Car: [Negative Case] Parking Lot isnt Initiated yet.")
+    @DisplayName("Test if the system is unable to park a car because the parking lot has not been initialized yet.")
     @Test
     void parkCarNoParkingLotFailedSpec(){
         parkingService.resetParkingLot();
@@ -69,7 +69,7 @@ public class ParkingServiceSpec {
 
     //HashMap<Integer, CarData> parkingLot
     @Nested
-    @DisplayName("Inquiring Status: [Positive Case]")
+    //@DisplayName("Inquiring Status: [Positive Case]")
     @ExtendWith(ParameterResolverInquireStatusPositiveCase .class)
 
     public class StatusInquiryPositiveCaseSpec {
@@ -77,7 +77,7 @@ public class ParkingServiceSpec {
         HashMap<Integer, CarData> ParkingLotDummy;
 
         @Test
-        @DisplayName("Parking Lot is not Null")
+        @DisplayName("Test if parking lot has been initialized.")
         public void InquiryResultNotNullSpec(HashMap parkingLot){
             parkingService.setParkingLot(parkingLot);
             HashMap<Integer, CarData> result = parkingService.inquireStatus();
@@ -85,27 +85,78 @@ public class ParkingServiceSpec {
         }
 
         @Test
-        @DisplayName("Parking Lot has 6 Cars Inside")
+        @DisplayName("Test if inside parking lot there are 6 cars.")
         public void CheckInquiryResultIndex(HashMap parkingLot){
+        //public void CheckInquiryResultIndex(){
             parkingService.setParkingLot(parkingLot);
             HashMap<Integer, CarData> result = parkingService.inquireStatus();
             assertThat(result.size()).isEqualTo(6);
         }
 
         @Test
-        @DisplayName("Notification For Full Parking Lot")
-        public void errorCodeForPullParkingLot(HashMap parkingLot){
-            parkingService.setParkingLot(parkingLot);
+        @DisplayName("Test if parking lot is full and a car unable to park.")
+        //public void errorCodeForPullParkingLot(HashMap parkingLot){
+        public void errorCodeForPullParkingLot(){
+            //parkingService.setParkingLot(parkingLot);
             CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0, "");
             int result = parkingService.parkCar(dummyCar);
             assertThat(result).isEqualTo(HttpServletResponse.SC_BAD_REQUEST);
-
             //HashMap<Integer, CarData> result = parkingService.inquireStatus();
             //assertThat(result.size()).isEqualTo(6);
         }
 
+        @Test
+        @DisplayName("Test if the system is able to provide registration numbers based on car colour.")
+        //public void regNoInquryBasedOnColour(HashMap parkingLot){
+        public void regNoInquryBasedOnColour(){
+            //parkingService.setParkingLot(parkingLot);
+            ArrayList<String> result = parkingService.inquryRegNoBasedOnColour("Black");
+            assertThat(result).isNotEmpty();
+        }
+
+        @Test
+        @DisplayName("Test if the system is unable to provide registration numbers based on car colour / No data found.")
+        public void failedToRetrieveRegNoBasedOnColour(){
+            parkingService.resetParkingLot();
+            ArrayList<String> result = parkingService.inquryRegNoBasedOnColour("Black");
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        @DisplayName("Test if the system is able to provide slot numbers based on car colour.")
+        public void slotNoInquryBasedOnColour(HashMap parkingLot){
+            parkingService.setParkingLot(parkingLot);
+            ArrayList<String> result = parkingService.inqurySlotNoBasedOnColour("Black");
+            assertThat(result).isNotEmpty();
+        }
+
+        @Test
+        @DisplayName("Test if the system is unable to provide slot numbers based on car colour / No data found.")
+        public void failedToRetrieveSlotNoBasedOnColour(HashMap parkingLot){
+            parkingService.resetParkingLot();
+            ArrayList<String> result = parkingService.inqurySlotNoBasedOnColour("Black");
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        @DisplayName("Test if the system is able to provide slot numbers based on registration number.")
+        public void slotNoInquryBasedOnRegNo(HashMap parkingLot){
+            parkingService.setParkingLot(parkingLot);
+            ArrayList<String> result = parkingService.inqurySlotNoBasedOnRegNo("KA-01-HH-7777");
+            assertThat(result).isNotEmpty();
+        }
+
+        @Test
+        @DisplayName("Test if the system is unable to provide slot numbers based on registration number / No data found.")
+        public void failedToRetrieveSlotNoInquryBasedOnRegNo(HashMap parkingLot){
+            parkingService.resetParkingLot();
+            ArrayList<String> result = parkingService.inqurySlotNoBasedOnRegNo("KA-01-HH-7777");
+            assertThat(result).isEmpty();
+        }
+
     }
 
+    /*
     @Nested
     @DisplayName("Inquiring Registration Number: [Positive Case]")
     public class regNoInquiry{
@@ -116,6 +167,6 @@ public class ParkingServiceSpec {
     @DisplayName("Inquiring Slot Number: [Positive Case]")
     public class slotInquiry{
 
-    }
+    }*/
 
 }

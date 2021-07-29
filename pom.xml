@@ -8,11 +8,22 @@
         <version>2.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>rin.portofolio</groupId>
+
+    <groupId>com.rin</groupId>
     <artifactId>parking_demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>parking_demo</name>
+
     <description>Demo project for Spring Boot</description>
+
+    <developers>
+        <developer>
+            <name>Rin Nadia</name>
+            <url>https://github.com/PuppeMeister/parking_demo/</url>
+            <id>PuppeMeister</id>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
