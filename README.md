@@ -230,6 +230,8 @@ This is a microservice model for handling parking lot problem. The model retriev
 - The system is able to allocate parking lot based on user input.
 - The system is able to refuse the allocation request twice / parking lot cannot be initialize twice.
 - The system is able to park a car.
+- A car is able to leave parking lot.
+- The system is able to reject a request to leave unexisting parking lot.
 - The system is unable to park a car because the parking lot has not been initialized yet.
 - Test if parking lot has been initialized.
 - Test if inside parking lot there are 6 cars.
