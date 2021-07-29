@@ -12,6 +12,7 @@ import java.util.*;
 
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 public class ParkingService implements ParkingDao {
@@ -55,15 +56,16 @@ public class ParkingService implements ParkingDao {
             //parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == null).findFirst().ifPresent(slot -> sb.append(slot.getKey()));
             parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == "vacant").
                     findFirst().ifPresent(slot -> sb.append(slot.getKey()));
-            indexParkingLot = Integer.parseInt(sb.toString());
-            car.setSlotNumber(indexParkingLot+1);
-            parkingLot.replace(indexParkingLot, car);
 
-            System.out.println("Fall in love with u tonite");
-            System.out.println(parkingLot.get(indexParkingLot).getRegistrationNumber());
-            System.out.println(parkingLot.get(indexParkingLot).getColour());
+            if(sb.toString().isEmpty()){
+                return HttpServletResponse.SC_BAD_REQUEST;
+            }else{
 
-            return HttpServletResponse.SC_OK;
+                indexParkingLot = Integer.parseInt(sb.toString());
+                car.setSlotNumber(indexParkingLot+1);
+                parkingLot.replace(indexParkingLot, car);
+                return HttpServletResponse.SC_OK;
+            }
         }
         //parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == null).findFirst().ifPresent(slot -> System.out.println(slot.getKey()));
 
@@ -88,7 +90,8 @@ public class ParkingService implements ParkingDao {
                 System.out.println(parkingLot.get(slotNumber - 1).getRegistrationNumber());
                 System.out.println(parkingLot.get(slotNumber - 1).getColour());
                  */
-                parkingLot.remove((slotNumber - 1));
+                //parkingLot.remove((slotNumber - 1));
+                parkingLot.put((slotNumber - 1), new CarData(slotNumber, "vacant", "vacant", 0, "") );
                 /*
                 System.out.println("After leaving");
                 System.out.println(parkingLot.get(slotNumber - 1).getSlotNumber());
@@ -113,6 +116,13 @@ public class ParkingService implements ParkingDao {
 
     public HashMap<Integer, CarData> inquireStatus(){
           return parkingLot;
+    }
+
+    public HashMap<Integer, CarData> AinquireStatus(){
+        Map<Integer, CarData> result;
+        result = parkingLot.entrySet().stream().filter(parkingData -> !parkingData.getValue().getRegistrationNumber().equals("vacant"))
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+        return new HashMap<Integer, CarData>(result);
     }
 
     @Override
