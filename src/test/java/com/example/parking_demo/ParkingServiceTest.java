@@ -41,14 +41,6 @@ public class ParkingServiceTest {
         assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
     }
 
-    /*@DisplayName("Alocate Parking Slot:[Negative Case] Input is not Integer but String")
-    @Test
-    void alocatedSlotStringFailedSpec(){
-        int slot = 47;
-        int result = parkingService.alocateSpace(slot);
-        assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
-    }*/
-
     @DisplayName("Test if the system is able to park a car.")
     @Test
     void parkFirstCarSpec(){
@@ -56,6 +48,22 @@ public class ParkingServiceTest {
         CarData dummyCar = new CarData(1, "KA-01-HH-1234", "white", 0, "");
         int result = parkingService.parkCar(dummyCar);
         assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
+    }
+
+    @DisplayName("Test if a car is able to leave parking lot.")
+    @Test
+    void leaveParkingLot(){
+
+        int result = parkingService.leaveCar(1);
+        assertThat(result).isEqualTo(HttpServletResponse.SC_OK);
+    }
+
+    @DisplayName("Test if the system is able to reject a request to leave unexisting parking lot.")
+    @Test
+    void leaveUnexistingParkingLot(){
+
+        int result = parkingService.leaveCar(1);
+        assertThat(result).isEqualTo(HttpServletResponse.SC_FORBIDDEN);
     }
 
     @DisplayName("Test if the system is unable to park a car because the parking lot has not been initialized yet.")
@@ -69,7 +77,7 @@ public class ParkingServiceTest {
 
     //HashMap<Integer, CarData> parkingLot
     @Nested
-    //@DisplayName("Inquiring Status: [Positive Case]")
+    @DisplayName("Inquiring Status")
     @ExtendWith(ParameterResolverInquireStatusPositiveCase .class)
 
     public class StatusInquiryPositiveCaseSpec {
@@ -155,18 +163,5 @@ public class ParkingServiceTest {
         }
 
     }
-
-    /*
-    @Nested
-    @DisplayName("Inquiring Registration Number: [Positive Case]")
-    public class regNoInquiry{
-
-    }
-
-    @Nested
-    @DisplayName("Inquiring Slot Number: [Positive Case]")
-    public class slotInquiry{
-
-    }*/
 
 }

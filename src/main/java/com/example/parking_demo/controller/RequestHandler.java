@@ -17,11 +17,7 @@ import java.util.Map;
 @RestController
 public class RequestHandler {
 
-    private static final HashMap<Integer, String> NOTIFICATION = new HashMap<>();
-
     public RequestHandler(){
-        NOTIFICATION.put(201, "Parking Slot is Allocated");
-        NOTIFICATION.put(200, "Request is done.");
     }
 
     @Autowired
@@ -35,7 +31,7 @@ public class RequestHandler {
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
-        jsonResponse.addProperty("message", NOTIFICATION.get(status));
+        jsonResponse.addProperty("message",status == HttpServletResponse.SC_CREATED? "Parking Slot has been successfuly Allocated" : "Request is Rejected. Parking Slot has been Allocated before.");
         return jsonResponse.toString();
     }
 
@@ -47,7 +43,7 @@ public class RequestHandler {
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
-        jsonResponse.addProperty("message", NOTIFICATION.get(status));
+        jsonResponse.addProperty("message", status == HttpServletResponse.SC_OK ? "Request is Done" : "Sorry, Parking Lot is Full.");
         return jsonResponse.toString();
     }
 
@@ -59,7 +55,7 @@ public class RequestHandler {
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
-        jsonResponse.addProperty("message", NOTIFICATION.get(status));
+        jsonResponse.addProperty("message", status == HttpServletResponse.SC_OK ? "Slot number "+incomingData.getSlotNumber()+" now is Empty." : "Sorry, Request is Failed to Proceed.");
         return jsonResponse.toString();
     }
 
@@ -89,7 +85,7 @@ public class RequestHandler {
 
         }else{
             jsonResponse.addProperty("Status", Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
-            jsonResponse.addProperty("Status", "Parking Lot isn't initialized yet.");
+            jsonResponse.addProperty("Status", "Parking Lot isn't initialized yet or empty.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         return jsonResponse.toString();
@@ -109,11 +105,17 @@ public class RequestHandler {
         JsonObject jsonResponse =  new JsonObject();
         JsonArray jsonArray =  new JsonArray();
 
-        if(result != null){
-            return result.toString();
+        if(!result.isEmpty()){
+            for(String regNo : result){
+                JsonObject regJson = new JsonObject();
+                regJson.addProperty("Registration Number", regNo);
+                jsonArray.add(regJson);
+            }
+            jsonResponse.add("data", jsonArray);
+            return jsonResponse.toString();
         }else{
             jsonResponse.addProperty("Status", Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
-            jsonResponse.addProperty("Status", "Data is not Found.");
+            jsonResponse.addProperty("message", "Data is not Found.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return jsonResponse.toString();
         }
@@ -126,11 +128,17 @@ public class RequestHandler {
         JsonObject jsonResponse =  new JsonObject();
         JsonArray jsonArray =  new JsonArray();
 
-        if(result != null){
-            return result.toString();
+        if(!result.isEmpty()){
+            for(String slot : result){
+                JsonObject regJson = new JsonObject();
+                regJson.addProperty("Parking Slot", slot);
+                jsonArray.add(regJson);
+            }
+            jsonResponse.add("data", jsonArray);
+            return jsonResponse.toString();
         }else{
             jsonResponse.addProperty("Status", Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
-            jsonResponse.addProperty("Status", "Data is not Found.");
+            jsonResponse.addProperty("message", "Data is not Found.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return jsonResponse.toString();
         }
@@ -143,11 +151,17 @@ public class RequestHandler {
         JsonObject jsonResponse =  new JsonObject();
         JsonArray jsonArray =  new JsonArray();
 
-        if(result != null){
-            return result.toString();
+        if(!result.isEmpty()){
+            for(String slot : result){
+                JsonObject regJson = new JsonObject();
+                regJson.addProperty("Parking Slot", slot);
+                jsonArray.add(regJson);
+            }
+            jsonResponse.add("data", jsonArray);
+            return jsonResponse.toString();
         }else{
             jsonResponse.addProperty("Status", Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
-            jsonResponse.addProperty("Status", "Data is not Found.");
+            jsonResponse.addProperty("message", "Data is not Found.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return jsonResponse.toString();
         }
@@ -164,7 +178,7 @@ public class RequestHandler {
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
-        jsonResponse.addProperty("message", status == 201 ? "Parking Lot is Successfully Created" : "Failed");
+        jsonResponse.addProperty("message", status == HttpServletResponse.SC_CREATED ? "Parking Lot is Successfully Created" : "Failed");
 
         return jsonResponse.toString();
     }
