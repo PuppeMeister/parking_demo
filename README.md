@@ -228,6 +228,18 @@ This is a microservice model for handling parking lot problem. The model retriev
 ## Unit Testing ##
 
  - **Controller**
+     - It should able to allocate / initialize the parking lot.
+     - It should able to park a car.
+     - It should process request for a car to leave the parking lot.
+     - It should reject a request of a car to park because the parking lot is full.
+     - Status Inquiry
+     - It should fail because parking lot isn't uninitialized yet.
+     - It should be able to give the registration number info based on colour.
+     - It should fail the registration number inquiry based on colour because data not found or the parking lot uninitialzed.
+     - It should be able to give the slot number info based on registration number.
+     - It should fail the slot number inquiry based on reg no because data not found or the parking lot uninitialzed.
+     - It should be able to give the slot number info based on colour.
+     - It should fail the slot number inquiry based on colour because data not found or the parking lot uninitialzed.
  
  - **Service**
 
