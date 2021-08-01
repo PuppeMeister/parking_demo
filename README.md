@@ -227,7 +227,7 @@ This is a microservice model for handling parking lot problem. The model retriev
 
 ## Unit Testing ##
 
- - **Controller**
+ - **REST Controller**
      - It should able to allocate / initialize the parking lot.
      - It should able to park a car.
      - It should process request for a car to leave the parking lot.
