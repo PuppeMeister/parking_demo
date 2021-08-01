@@ -19,7 +19,7 @@ import java.util.HashMap;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 //@ExtendWith(ParameterResolverParkingDataSpec.class) //Calling or tie this class with Parameter Resolver (Mock Data)
-public class ParkingServiceTest {
+public class ParkingServiceTests {
 
     @Autowired
     ParkingService parkingService;

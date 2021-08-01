@@ -34,6 +34,7 @@ public class ParkingService implements ParkingDao {
     }
 
     public int alocateSpace(int slot){
+
         if(parkingLot.isEmpty()){
 
             for(int i=0; i<slot; i++){
@@ -53,7 +54,6 @@ public class ParkingService implements ParkingDao {
         if(parkingLot.isEmpty()){
             return HttpServletResponse.SC_BAD_REQUEST;
         }else{
-            //parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == null).findFirst().ifPresent(slot -> sb.append(slot.getKey()));
             parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == "vacant").
                     findFirst().ifPresent(slot -> sb.append(slot.getKey()));
 
@@ -67,11 +67,34 @@ public class ParkingService implements ParkingDao {
                 return HttpServletResponse.SC_OK;
             }
         }
-        //parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == null).findFirst().ifPresent(slot -> System.out.println(slot.getKey()));
+    };
 
-        //parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == null).findFirst().ifPresent(slot -> sb.append(slot.getKey()));
+    /*public int parkCar(String registrationNumber, String colour){
+        int indexParkingLot = 0;
+        StringBuilder sb = new StringBuilder();
 
-        //System.out.println("Ini --> "+ Integer.parseInt("0"));
+        if(parkingLot.isEmpty()){
+            return HttpServletResponse.SC_BAD_REQUEST;
+        }else{
+            parkingLot.entrySet().stream().filter(slot -> slot.getValue().getRegistrationNumber() == "vacant").
+                    findFirst().ifPresent(slot -> sb.append(slot.getKey()));
+
+            if(sb.toString().isEmpty()){
+                return HttpServletResponse.SC_BAD_REQUEST;
+            }else{
+
+                indexParkingLot = Integer.parseInt(sb.toString());
+                //car.setSlotNumber(indexParkingLot+1);
+                parkingLot.replace(indexParkingLot, new CarData(indexParkingLot+1, registrationNumber, colour, 0, null));
+                return HttpServletResponse.SC_OK;
+            }
+        }
+    };*/
+
+    public int parkCarCoba(String a){
+
+
+                return HttpServletResponse.SC_OK;
     };
 
     public int leaveCar(int slotNumber){

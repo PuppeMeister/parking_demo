@@ -8,6 +8,7 @@ public interface ParkingDao {
 
    int alocateSpace(int slot);
    int parkCar(CarData car);
+   //int parkCar(String registrationNumber, String Colour);
    void resetParkingLot();
    HashMap<Integer, CarData> getParkingLot();
    void setParkingLot(HashMap parkingLot);

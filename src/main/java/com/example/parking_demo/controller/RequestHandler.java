@@ -15,19 +15,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+
 public class RequestHandler {
 
-    public RequestHandler(){
+    private ParkingService parkingService;
+    @Autowired
+    public RequestHandler(ParkingService parkingService)
+    {
+        this.parkingService = parkingService;
     }
 
-    @Autowired
-    private ParkingService parkingService;
 
     @PostMapping
     @RequestMapping("/api/v1/parking/alocatingspace")
     public String alocateSlot(@RequestBody CarData incomingData, HttpServletResponse response){
 
         int status = parkingService.alocateSpace(incomingData.getParkingSlot());
+
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
@@ -40,6 +44,9 @@ public class RequestHandler {
     public String parkingOneCar(@RequestBody CarData incomingData, HttpServletResponse response){
 
         int status = parkingService.parkCar(incomingData);
+        //int status = parkingService.parkCar(incomingData.getRegistrationNumber(), incomingData.getColour());
+
+        //int status = parkingService.parkCarCoba("a");
         response.setStatus(status);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", Integer.toString(status));
@@ -67,7 +74,7 @@ public class RequestHandler {
         JsonObject jsonResponse =  new JsonObject();
         JsonArray jsonArray =  new JsonArray();
 
-        if(result != null){
+        if(!result.isEmpty()){
 
             //Please this iterate should be modified with java 8
             for (Map.Entry<Integer, CarData> car : result.entrySet()) {
@@ -80,7 +87,7 @@ public class RequestHandler {
                 jsonObject.addProperty("Colour", car.getValue().getColour());
                 jsonArray.add(jsonObject);
             }
-            jsonResponse.add("", jsonArray);
+            jsonResponse.add("data", jsonArray);
             response.setStatus(HttpServletResponse.SC_OK);
 
         }else{
