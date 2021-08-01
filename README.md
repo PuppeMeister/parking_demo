@@ -8,6 +8,7 @@ This is a microservice model for handling parking lot problem. The model retriev
 1. Java 8
 2. Spring Boot
 3. jUnit5
+4. MockMvc
 
 ## Features ##
 
